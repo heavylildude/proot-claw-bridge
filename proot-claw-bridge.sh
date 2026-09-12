@@ -13,17 +13,33 @@ if [ -z "${TERMUX_VERSION:-}" ] && [ ! -d "/data/data/com.termux" ]; then
     exit 1
 fi
 
-DEBIAN_ROOTFS="$PREFIX/var/lib/proot-distro/installed-rootfs/debian"
+PROOT_DISTRO_DIR="$PREFIX/var/lib/proot-distro"
+DISTRO_NAME="debian"
+
+# proot-distro v5.x+ (current) stores rootfs at containers/<name>/rootfs
+# older proot-distro (pre-5.0) stored it at installed-rootfs/<name>
+NEW_LAYOUT="$PROOT_DISTRO_DIR/containers/$DISTRO_NAME/rootfs"
+LEGACY_LAYOUT="$PROOT_DISTRO_DIR/installed-rootfs/$DISTRO_NAME"
+
 LINK_TARGET="$HOME/openclaw_proot"
 
 echo "🏄 [proot-claw-bridge] Checking Debian rootfs..."
 
-# 2. Verify Debian rootfs exists
-if [ ! -d "$DEBIAN_ROOTFS" ]; then
-    echo "❌ [Error] Debian rootfs not found at: $DEBIAN_ROOTFS"
-    echo "   Install it first with: proot-distro install debian"
+# 2. Detect which layout is actually in use
+if [ -d "$NEW_LAYOUT" ]; then
+    DEBIAN_ROOTFS="$NEW_LAYOUT"
+elif [ -d "$LEGACY_LAYOUT" ]; then
+    DEBIAN_ROOTFS="$LEGACY_LAYOUT"
+else
+    echo "❌ [Error] Debian rootfs not found in either known location:"
+    echo "   New layout    : $NEW_LAYOUT"
+    echo "   Legacy layout : $LEGACY_LAYOUT"
+    echo "   Run 'proot-distro list' to confirm the container is really installed,"
+    echo "   or 'proot-distro login debian' once to force a layout check/migration."
     exit 1
 fi
+
+echo "✅ Found rootfs at: $DEBIAN_ROOTFS"
 
 # 3. Locate or create the .openclaw directory
 TARGET_SOURCE=""
