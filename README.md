@@ -11,7 +11,7 @@ Edit configs, workspace files, and assets from Android apps (Acode, Material Fil
 Run this one-liner in your **Termux host** shell (outside of PRoot):
 
 ```bash
-curl -sL [https://raw.githubusercontent.com/heavylildude/proot-claw-bridge/main/proot-claw-bridge.sh](https://raw.githubusercontent.com/heavylildude/proot-claw-bridge/main/proot-claw-bridge.sh) | bash
+bash <(curl -sL https://raw.githubusercontent.com/heavylildude/proot-claw-bridge/main/proot-claw-bridge.sh)
 ```
 
 Alternatively, clone and run locally:
