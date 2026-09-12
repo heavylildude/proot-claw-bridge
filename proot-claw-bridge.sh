@@ -49,11 +49,12 @@ if [ -z "$TARGET_SOURCE" ]; then
     echo "Where should it live?"
     echo "  1) root (/root/.openclaw) [Default]"
     echo "  2) Non-root user (/home/<username>/.openclaw)"
-    read -r -p "Selection [1/2]: " USER_CHOICE
+    # 👇 Slap the < /dev/tty right at the end of these two read lines 👇
+    read -r -p "Selection [1/2]: " USER_CHOICE < /dev/tty
     USER_CHOICE="${USER_CHOICE:-1}"
 
     if [ "$USER_CHOICE" = "2" ]; then
-        read -r -p "Enter PRoot username: " PROOT_USER
+        read -r -p "Enter PRoot username: " PROOT_USER < /dev/tty
         TARGET_SOURCE="$DEBIAN_ROOTFS/home/$PROOT_USER/.openclaw"
     else
         TARGET_SOURCE="$DEBIAN_ROOTFS/root/.openclaw"
