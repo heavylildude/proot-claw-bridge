@@ -17,7 +17,7 @@ bash <(curl -sL https://raw.githubusercontent.com/heavylildude/proot-claw-bridge
 Alternatively, clone and run locally:
 
 ```bash
-git clone [https://github.com/heavylildude/proot-claw-bridge.git](https://github.com/heavylildude/proot-claw-bridge.git)
+git clone https://github.com/heavylildude/proot-claw-bridge.git
 cd proot-claw-bridge
 chmod +x proot-claw-bridge.sh
 ./proot-claw-bridge.sh
